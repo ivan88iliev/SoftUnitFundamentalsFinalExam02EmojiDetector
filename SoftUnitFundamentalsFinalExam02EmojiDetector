@@ -1,0 +1,55 @@
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace SoftUnitFundamentalsFinalExam
+{
+    class Program
+    {
+        private static string casint;
+
+        static void Main(string[] args)
+        {
+            //SoftUnitFundamentalsFinalExam02EmojiDetector
+
+
+            string text = Console.ReadLine();
+
+            string digitPattern = @"\d";
+            string emojiPattern = @"(::|\*\*)[A-Z][a-z]{2,}\1";
+
+            Regex digits = new Regex(digitPattern);
+            var matchesDigits = digits.Matches(text);
+            int totalDigits = 1;
+            foreach (Match item in matchesDigits)
+            {
+                totalDigits *= int.Parse(item.ToString());
+            }
+            Console.WriteLine($"Cool threshold: {totalDigits}");
+
+            Regex leather = new Regex(emojiPattern);
+            MatchCollection coolOnes = leather.Matches(text);
+            if (coolOnes.Count > 0)
+            {
+                Console.WriteLine($"{coolOnes.Count} emojis found in the text. The cool ones are:");
+                for (int i = 0; i < coolOnes.Count; i++)
+                {
+                    int coolness = 0;
+                    string current = coolOnes[i].ToString();
+                    for (int j = 2; j < current.Length - 2; j++)
+                    {
+
+                        coolness += current[j];
+                    }
+                    if (totalDigits < coolness)
+                    {
+                        Console.WriteLine(current);
+                    }
+
+                }
+            }
+
+            //
+        }
+    }
+}
